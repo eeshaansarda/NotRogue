@@ -1,0 +1,97 @@
+% Created 2023-03-17 Fri 23:26
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{190022658}
+\date{\today}
+\title{CS4303 P1 - Report}
+\hypersetup{
+ pdfauthor={190022658},
+ pdftitle={CS4303 P1 - Report},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.6)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Overview}
+\label{sec:org51d12e5}
+In this practical we had to implement a Rogue-like game in Java using Processing. In this game, the player needs to finish a total of three levels comprising of a dungeon each. A dungeon here has multiple rooms containing items and monsters. The player can gain weapons, gain skills and use other items. They also need to fight or avoid enemies while going to the last room and going to the next level.
+
+\section{Design}
+\label{sec:org4925faf}
+\subsection{Dungeon}
+\label{sec:org37797eb}
+The dungeon room creation has been specified in the implementation. Then we store all the the rooms in the Dungeon class. We then create corridors for them. The dungeon also creates Monster and Items depending on the level of dungeon.
+\subsection{Characters and Movement}
+\label{sec:orgc79bec9}
+The game has a player and monsters. The player moves using the arrow keys or 'wasd'. The player can only stay in the playable area, which are the rooms and corridors. There is a collosion detection mechanism to ensure this. The same algorithm also checks for collison with items and monsters which have their respective behaviour specified. The monsters' default movement is a wandering movement and when the player enters the monsters' room, the movement changes to kinematic seek. The monsters also have collision detection which prevent them from moving past walls. On collision with monsters the player engage in text combat.
+\subsection{Character Attributes}
+\label{sec:orgc6165a1}
+The player and monsters are subclass of the Combatant superclass. It has the following attributes:
+\begin{itemize}
+\item HP. It is their health.
+\item Attack. Determines how much the attack damages the other combatant.
+\item Defence. This is a barrier which defends your health.
+\item Speed. It is their movement speed.
+\end{itemize}
+\subsection{Treasure, Items and equipment}
+\label{sec:orgfd61aa9}
+The following are available for use by the player:
+\begin{itemize}
+\item Potion. Gain a certain amount of hp.
+\item Poison. Lose a certain amount of hp.
+\item Sword. Gain skills and attack by collecting a certain number of swords.
+\item Sheild. Gain defense.
+\item Gate. You have completed the level and qualify for the next one.
+\end{itemize}
+\subsection{Combat}
+\label{sec:org0d5249b}
+The monsters and player have a number of battle skills available that they can learn. For example, the level 0 monsters only learn Growl and Scratch and so on. The monsters also have a ratio of the skill used. The players can learn skills by picking up Swords like Cut, Slash and Three sword style. There are no misses in attacks here. Level increase also improves monsters' speed.
+\begin{itemize}
+\item Damage. An attack gives the following damage - skill.damage * (1 + attack/100)
+\end{itemize}
+\subsection{UI}
+\label{sec:org6cdc5a5}
+The UI uses a titlemap from [\url{https://www.kenney.nl/}]. The top left part of the screen contains the hp bar of the user and when in combat, the hp bar of the monster too. The defence and attack are hidden stats and are therefore not shown anywhere.
+
+\section{Implementation}
+\label{sec:orged62c7b}
+\subsection{Procedural Generation}
+\label{sec:orgbbe5292}
+The dungeon has been procedurally generated using the DungeonArea which is a BSP tree node and splits into two nodes of itself and splits until a satisfactory size has been achieved. It then generates rooms in a somewhat random manner.
+
+When splitting, first we randomly choose if we want to split the area horizontally or vertically. Also take into consideration the ratio of width and height of the current split. We then choose a random value with a certain amount of padding to create a split there. When the size of split is too small to house any more splits, we create a room there.
+\subsection{AI}
+\label{sec:orgaaa61ad}
+Here we have chances of the monster using some type of attacks depending on their levels. For example it uses less effective skills when it is level one, and so on. They also have improved speed and attack. There is also a simple movement implemented.
+
+\section{Screenshots}
+\label{sec:orga686858}
+\subsection{Start screen}
+\label{sec:org7715596}
+\subsection{Dungeon}
+\label{sec:org8f23c91}
+\subsection{Fight screens}
+\label{sec:orgc56b31e}
+\subsection{Game over}
+\label{sec:orgf36c511}
+\subsection{Win screen}
+\label{sec:orgd4f2244}
+
+\section{Conclusion}
+\label{sec:org6f5644d}
+Given more time, I would have created a more sophisticated AI and added more movements for monsters. I would also add a better combat system. I would also find a better way to create dungeon corridors. The code would also be neater.
+\end{document}
